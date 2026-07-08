@@ -3,14 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <script>
-      var search = window.location.search;
-      var hash = window.location.hash;
-      window.location.replace(
-        window.location.origin +
-        window.location.pathname.replace(/\/[^/]*$/, '/') +
-        (search ? search : '') +
-        (hash ? hash : '')
-      );
+      // Preserve the original request path and forward to the SPA
+      // so the client router can handle deep links.
+      try {
+        const original = window.location.pathname + window.location.search + window.location.hash;
+        // Adjust the base path to the Pages site prefix for this project
+        const base = '/receipt_page/';
+        window.location.replace(base + '?p=' + encodeURIComponent(original));
+      } catch (e) {
+        window.location.replace('/receipt_page/');
+      }
     </script>
   </head>
   <body></body>
